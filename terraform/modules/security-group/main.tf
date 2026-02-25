@@ -3,7 +3,7 @@
 ##########################
 resource "aws_security_group" "alb_sg_group" {
   name   = "alb-sg"
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.vpc_id
 
   tags = {
     Name = "ALB-SG"
@@ -50,7 +50,7 @@ resource "aws_vpc_security_group_egress_rule" "alb_to_app_https" {
 ##########################
 resource "aws_security_group" "app_sg_group" {
   name   = "app-sg"
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.vpc_id
 
   tags = {
     Name = "APP-SG"
@@ -79,8 +79,6 @@ resource "aws_vpc_security_group_ingress_rule" "app_from_jenkins_ssh" {
 resource "aws_vpc_security_group_egress_rule" "app_egress_internet" {
   security_group_id = aws_security_group.app_sg_group.id
   cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 0
-  to_port           = 0
   ip_protocol       = "-1"
 }
 
@@ -89,7 +87,7 @@ resource "aws_vpc_security_group_egress_rule" "app_egress_internet" {
 ##########################
 resource "aws_security_group" "jenkins_sg_group" {
   name   = "jenkins-sg"
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.vpc_id
 
   tags = {
     Name = "JENKINS-SG"
@@ -99,7 +97,7 @@ resource "aws_security_group" "jenkins_sg_group" {
 # Jenkins Ingress - SSH from YOUR_IP
 resource "aws_vpc_security_group_ingress_rule" "jenkins_ssh" {
   security_group_id = aws_security_group.jenkins_sg_group.id
-  cidr_ipv4         = "185.70.55.119/32" # replace with your IP
+  cidr_ipv4         = "0.0.0.0/0" # replace with your IP
   from_port         = 22
   to_port           = 22
   ip_protocol       = "tcp"
@@ -108,7 +106,7 @@ resource "aws_vpc_security_group_ingress_rule" "jenkins_ssh" {
 # Jenkins Ingress - Web UI (8080) from YOUR_IP
 resource "aws_vpc_security_group_ingress_rule" "jenkins_ui" {
   security_group_id = aws_security_group.jenkins_sg_group.id
-  cidr_ipv4         = "185.70.55.119/32" # replace with your IP
+  cidr_ipv4         = "0.0.0.0/0" # replace with your IP
   from_port         = 8080
   to_port           = 8080
   ip_protocol       = "tcp"
@@ -118,7 +116,5 @@ resource "aws_vpc_security_group_ingress_rule" "jenkins_ui" {
 resource "aws_vpc_security_group_egress_rule" "jenkins_egress_internet" {
   security_group_id = aws_security_group.jenkins_sg_group.id
   cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 0
-  to_port           = 0
   ip_protocol       = "-1"
 }
