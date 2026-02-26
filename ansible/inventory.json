@@ -2,21 +2,21 @@
   "all": {
     "hosts": {
       "jenkins": {
-        "ansible_host": "18.199.225.103",
+        "ansible_host": "18.157.169.200",
         "ansible_user": "ubuntu",
         "ansible_ssh_private_key_file": "/Users/user/Downloads/myDevKey.pem"
       },
       "app1": {
-        "ansible_host": "10.0.101.216",
+        "ansible_host": "10.0.101.50",
         "ansible_user": "ubuntu",
         "ansible_ssh_private_key_file": "/Users/user/Downloads/myDevKey.pem",
-        "ansible_ssh_common_args": "-o ProxyJump=ubuntu@18.199.225.103"
+        "ansible_ssh_common_args": "-o ProxyJump=ubuntu@18.157.169.200"
        },
       "app2": {
-        "ansible_host": "10.0.102.113",
+        "ansible_host": "10.0.102.220",
         "ansible_user": "ubuntu",
         "ansible_ssh_private_key_file": "/Users/user/Downloads/myDevKey.pem",
-        "ansible_ssh_common_args": "-o ProxyJump=ubuntu@18.199.225.103"
+        "ansible_ssh_common_args": "-o ProxyJump=ubuntu@18.157.169.200"
       }
     },
     "children": {

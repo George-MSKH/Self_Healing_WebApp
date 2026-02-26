@@ -58,3 +58,14 @@
     name: jenkins
     groups: docker
     append: yes
+
+- name: Add Ansible PPA
+  apt_repository:
+    repo: ppa:ansible/ansible
+    state: present
+
+- name: Install latest Ansible
+  apt:
+    name: ansible
+    state: present
+    update_cache: yes
