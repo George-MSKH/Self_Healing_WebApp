@@ -16,12 +16,12 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build(DOCKER_IMAGE)
+                    sh "docker build -t ${DOCKER_IMAGE} -f docker/app/Dockerfile ."
                 }
             }
         }
 
-        stage('Push To Dockerhub') {
+        stage('Puåsh To Dockerhub') {
             steps {
                 script {
                     docker.withDockerRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS) {
