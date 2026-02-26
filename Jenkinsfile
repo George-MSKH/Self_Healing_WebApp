@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = "dockerhub"
+        DOCKERHUB_CREDENTIALS = "Dockerhub"
         DOCKER_IMAGE = 'giorgimeskhoradze/nexusapp:1.0'
     }
 
@@ -24,7 +24,7 @@ pipeline {
         stage('Push To Dockerhub') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    withCredentials([usernamePassword(credentialsId: 'Dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                                 sh "docker login -u ${USER} -p ${PASS}"
                                 sh "docker push ${DOCKER_IMAGE}"
                             }
