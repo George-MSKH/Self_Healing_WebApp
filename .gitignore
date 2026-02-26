@@ -42,3 +42,4 @@ Thumbs.db
 # Any local backup files
 *.bak
 *.tmp
+.venv
