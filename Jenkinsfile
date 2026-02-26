@@ -34,10 +34,7 @@ pipeline {
 
         stage('Deploy To App Servers') {
             steps {
-                ansiblePlaybook(
-                    playbook: 'ansible/playbooks/application.yml',
-                    inventory: 'ansible/inventory.json'
-                )
+                sh "ansible-playbook -i ansible/inventory.json ansible/playbooks/application.yml"
             }
         }
     }
