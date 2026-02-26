@@ -1,13 +1,16 @@
-- name: Update apt
+# roles/app/tasks/main.yml
+- name: Update apt cache
   apt:
     update_cache: yes
 
-- name: Install Docker
+- name: Install required packages
   apt:
-    name: docker.io
+    name:
+      - docker.io
+      - python3-pip
     state: present
 
-- name: Enable Docker 
+- name: Ensure Docker service is started and enabled
   systemd:
     name: docker
     state: started
@@ -18,4 +21,18 @@
     name: ubuntu
     groups: docker
     append: yes
-    
+
+- name: Pull Docker image from Docker Hub
+  community.docker.docker_image:
+    name: giorgimeskhoradze/nexusapp
+    tag: "1.0"
+    source: pull
+
+- name: Run Docker container
+  community.docker.docker_container:
+    name: nexusapp
+    image: giorgimeskhoradze/nexusapp:1.0
+    state: started
+    restart_policy: always
+    ports:
+      - "80:80"
