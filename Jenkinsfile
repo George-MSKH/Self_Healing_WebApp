@@ -21,12 +21,13 @@ pipeline {
             }
         }
 
-        stage('Puåsh To Dockerhub') {
+        stage('Push To Dockerhub') {
             steps {
                 script {
-                    docker.withDockerRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS) {
-                        docker.image(DOCKER_IMAGE).push()
-                    }
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                                sh "docker login -u ${USER} -p ${PASS}"
+                                sh "docker push ${DOCKER_IMAGE}"
+                            }
                 }
             }
         }
