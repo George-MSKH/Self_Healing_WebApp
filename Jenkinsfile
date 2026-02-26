@@ -36,6 +36,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'my-ssh-key', variable: 'KEY_FILE')]) {
                     sh """
+                    export ANSIBLE_ROLES_PATH=./ansible/roles
                     ANSIBLE_HOST_KEY_CHECKING=False \
                     ansible-playbook -i ansible/inventory.json \
                     ansible/playbooks/application.yml \
