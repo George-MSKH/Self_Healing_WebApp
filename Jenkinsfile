@@ -34,8 +34,14 @@ pipeline {
 
         stage('Deploy To App Servers') {
             steps {
-                withCredentials([file(credentialsId: 'myDevKey.pem', variable: 'KEY_FILE')]) {
-                    sh "ansible-playbook -i ansible/inventory.json ansible/playbooks/application.yml --private-key=${KEY_FILE} --user ubuntu"
+                withCredentials([file(credentialsId: 'my-ssh-key', variable: 'KEY_FILE')]) {
+                    sh """
+                    ANSIBLE_HOST_KEY_CHECKING=False \
+                    ansible-playbook -i ansible/inventory.json \
+                    ansible/playbooks/application.yml \
+                    --private-key=${KEY_FILE} \
+                    -u ubuntu
+                    """
                 }
             }
         }
