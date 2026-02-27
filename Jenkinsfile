@@ -4,7 +4,6 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = "Dockerhub"
         DOCKER_IMAGE = 'giorgimeskhoradze/nexusapp:1.0'
-        DOCKER_BUILDKIT = '1'
     }
 
     stages{
