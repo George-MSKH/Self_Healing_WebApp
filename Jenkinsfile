@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = "Dockerhub"
         DOCKER_IMAGE = 'giorgimeskhoradze/nexusapp:1.0'
+        DOCKER_BUILDKIT = '1'
     }
 
     stages{
@@ -44,7 +45,7 @@ pipeline {
                     --private-key=$KEY_FILE \
                     -u ubuntu \
                     --extra-vars "ansible_ssh_private_key_file=$KEY_FILE" \
-                    --ssh-common-args "-o ProxyJump=ubuntu@18.199.89.94 -o IdentityFile=$KEY_FILE -o StrictHostKeyChecking=no"
+                    --ssh-common-args "-o ProxyCommand='ssh -i \$KEY_FILE -A -o StrictHostKeyChecking=no ubuntu@18.199.89.94 -W %h:%p' -o StrictHostKeyChecking=no"
                     '''
                 }
             }
