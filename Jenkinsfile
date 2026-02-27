@@ -44,7 +44,7 @@ pipeline {
                     --private-key=$KEY_FILE \
                     -u ubuntu \
                     --extra-vars "ansible_ssh_private_key_file=$KEY_FILE" \
-                    --ssh-common-args "-o ProxyJump=ubuntu@18.157.169.200 -o IdentityFile=$KEY_FILE -o StrictHostKeyChecking=no"
+                    --ssh-common-args "-o ProxyJump=ubuntu@18.199.89.94 -o IdentityFile=$KEY_FILE -o StrictHostKeyChecking=no"
                     '''
                 }
             }
