@@ -34,18 +34,16 @@ pipeline {
 
         stage('Deploy To App Servers') {
             steps {
-                withCredentials([file(credentialsId: 'my-ssh-key', variable: 'KEY_FILE')]) {
-                    sh '''
-                    export ANSIBLE_ROLES_PATH=./ansible/roles
-                    export ANSIBLE_HOST_KEY_CHECKING=False
-                    
-                    ansible-playbook -i ansible/inventory.json \
-                    ansible/playbooks/application.yml \
-                    --private-key=$KEY_FILE \
-                    -u ubuntu \
-                    --extra-vars "ansible_ssh_private_key_file=$KEY_FILE" \
-                    --ssh-common-args "-o ProxyCommand='ssh -i \$KEY_FILE -A -o StrictHostKeyChecking=no ubuntu@18.199.89.94 -W %h:%p' -o StrictHostKeyChecking=no"
-                    '''
+                sshagent(['my-ssh-key']) {
+                    sh """
+                        export ANSIBLE_ROLES_PATH=./ansible/roles
+                        export ANSIBLE_HOST_KEY_CHECKING=False
+
+                        ansible-playbook -i ansible/inventory.json \\
+                            ansible/playbooks/application.yml \\
+                            -u ubuntu \\
+                            --ssh-common-args "-o StrictHostKeyChecking=no -o BatchMode=yes"
+                    """
                 }
             }
         }
